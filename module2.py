@@ -12,7 +12,7 @@ def subtract_numbers(x,y):
     return x - y
 
 def get_input():
-    print("Hello!\nYou will be prompted to provide two numbers.\nThese numbers can be any integer or decimel except you cannot use 0 (zero).")
+    print("Hello!\nYou will be prompted to provide two numbers.\nThese numbers can be any integer or decimal except you cannot use 0 (zero).")
     while True:
         number1 = float(input("Please provide your first number. "))
         if number1 == 0:
