@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+.hour-input {
+  color: blue;
+  margin-right: 5px;
+  width: 30px
+}
+
+.minute-input {
+  color: red;
+  margin-left: 5px;
+  width: 30px
+}
+</style>
+</head>
+<body>
+  <canvas id='clockCanvas' width=100 height=100></canvas>
+  <div class='button-container'>
+    <button onclick='currentTime()'>Draw current time</button>
+    <br/>
+    <input type='number' class='hour-input' min=1 max=12 value=12 id='hourInput' />:<input type='number' class='minute-input' min=0 max=59 value=0 id='minuteInput' />
+    <button onclick='drawUserTime()'>Draw time</button>
+  </div>
+  
+  
+<script>
+var canvas = document.getElementById('clockCanvas');
+var context = clockCanvas.getContext('2d');
+var clockRadius = 50;
+var clockOriginX = canvas.width / 2;
+var clockOriginY = canvas.height / 2;
+var hourMarkLength = 10;
+var minuteMarkLength = hourMarkLength / 2;
+
+currentTime();
+
+
+function drawClock() {
+  context.clearRect(0,0, canvas.width, canvas.height);
+  
+  context.beginPath();
+  context.arc(clockOriginX, clockOriginY, clockRadius, 0, 2 * Math.PI);
+  context.stroke();
+
+  context.beginPath();
+  context.arc(clockOriginX, clockOriginY, 2, 0, 2 * Math.PI);
+  context.fill();
+  context.stroke();
+  
+  var startingMarkerX = clockOriginX;
+  var startingMarkerY = clockOriginY - clockRadius + 10;
+
+  for (var i = 0; i < 60; i++) {
+      context.save();
+  
+      context.translate(clockOriginX, clockOriginY);
+      var calculateRotate = (Math.PI / 180) * (360 / 60) * i;
+      context.rotate(calculateRotate);
+      context.translate(-clockOriginX, -clockOriginY);
+  
+      context.beginPath();
+      context.moveTo(clockOriginX, clockOriginY - clockRadius);
+      var markLength;
+      if (i % 5 === 0) {
+          context.lineWidth = 2;
+          markLength = clockOriginY - clockRadius + hourMarkLength;
+      }
+      else {
+          context.lineWidth = 1;
+          markLength = clockOriginY - clockRadius + minuteMarkLength;
+      }
+    
+      context.lineTo(clockOriginX, markLength);
+      context.stroke();
+  
+      context.restore();
+  }
+}
+
+function drawHourHand(hour) {
+    context.save();
+    context.translate(clockOriginX, clockOriginY);
+    var calculateRotate = (Math.PI / 180) * (360 / 12) * (hour % 12);
+    context.rotate(calculateRotate);
+    context.translate(-clockOriginX, -clockOriginY);
+  
+    context.beginPath();
+    var lineColor = 'blue';
+    context.strokeStyle = lineColor;
+    context.fillStyle = lineColor;
+    context.lineWidth = 3;
+    context.moveTo(clockOriginX, clockOriginY);
+    context.lineTo(clockOriginX, (clockOriginY - clockRadius / 2));
+    context.stroke();
+  
+    context.beginPath();
+    context.moveTo(clockOriginX - 5, (clockOriginY - clockRadius / 2));
+    context.lineTo(clockOriginX + 5, (clockOriginY - clockRadius / 2));
+    context.lineTo(clockOriginX, (clockOriginY - clockRadius / 2) - 7);
+    context.fill();
+    context.closePath();
+    context.stroke();
+ 
+    context.restore();
+}
+
+function drawMinuteHand(minute) {
+    context.save();
+    context.translate(clockOriginX, clockOriginY);
+    var calculateRotate = (Math.PI / 180) * (360 / 60) * (minute % 60);
+    context.rotate(calculateRotate);
+    context.translate(-clockOriginX, -clockOriginY);
+  
+    context.beginPath();
+    var lineColor = 'red';
+    context.strokeStyle = lineColor;
+    context.fillStyle = lineColor;
+    context.lineWidth = 2;
+    context.moveTo(clockOriginX, clockOriginY);
+    context.lineTo(clockOriginX, clockOriginY - (clockRadius - 15));
+    context.stroke();
+  
+    context.beginPath();
+    context.moveTo(clockOriginX - 3, clockOriginY - (clockRadius - 20));
+    context.lineTo(clockOriginX + 3, clockOriginY - (clockRadius - 20));
+    context.lineTo(clockOriginX, (clockOriginY - clockRadius) + 10);
+    context.fill();
+    context.closePath();
+    context.stroke();
+  
+    context.restore();
+}
+
+function currentTime() {
+    var today = new Date();
+    var hour = today.getHours();
+    var minutes = today.getMinutes();
+    drawTime(hour, minutes);
+}
+
+function drawUserTime() {
+    var hour = document.getElementById('hourInput').value;
+  console.log(hour);
+    var minutes = document.getElementById('minuteInput').value;
+    drawTime(hour, minutes);
+}
+
+function drawTime(hour, minutes) {
+    var hourOffset = minutes / 60;
+    drawClock();
+    drawHourHand(Number(hour) + Number(hourOffset));
+    drawMinuteHand(minutes);
+}
+</script>
+</body>
+</html>

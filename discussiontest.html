@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<style>
+    body {
+        background-color: green;
+    }
+    h1 {
+        color: blue;
+        text-align: right;
+    }
+    p {
+        font-family: 'Times New Roman', Times, serif;
+        font-size: 20px;
+    }
+</style>    
+<head>
+<script>
+    function ChangeTextColor(newColor) {
+        var stylex = document.getElementById("jscriptdemo");
+        stylex.style.color = newColor;
+    }
+</script>
+<title>This is a title for the web page.</title>
+</head>
+
+<body>
+<h1>Heading H1 in blue and right justified.</h1>
+<p> This is a paragraph <u>with Underline </u><b>and Bold.</b>The background is green.</p>
+<p id="jscriptdemo">JavaScript enhances and alters how HTML looks and feels.</p>
+
+<button type="button" onclick="ChangeTextColor('blue')">Make it Blue!</button>
+<button type="button" onclick="ChangeTextColor('red')">Make it Red!</button>
+<button type="button" onclick="ChangeTextColor('black')">Make it Black!</button>
+
+</body>
+</html>

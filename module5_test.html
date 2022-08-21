@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<script>
+function ChangeTextColor(newColor) {
+   var x = document.getElementById("ColorableText");
+   x.style.color = newColor;
+}
+</script>
+</head>
+
+<body>
+<p id="ColorableText">
+   Click a button to change this text's color.
+</p>
+<button type="button" onclick="ChangeTextColor('red')">Red</button>
+<button type="button" onclick="ChangeTextColor('blue')">Blue</button>
+<button type="button" onclick="ChangeTextColor('green')">Green</button>
+</body>
+</html>
